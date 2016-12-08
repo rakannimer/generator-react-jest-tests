@@ -1,0 +1,56 @@
+{
+  "name": "generator-react-redux-saga-cli",
+  "version": "0.0.1",
+  "description": "react-redux-saga helper cli",
+  "homepage": "",
+  "author": {
+    "name": "RakanNimer",
+    "email": "rakannimer@gmail.com",
+    "url": "https://www.github.com/RakanNimer"
+  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/index.js",
+  "keywords": [
+    "react",
+    "redux",
+    "saga",
+    "cli",
+    "generator",
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "fs-readdir-recursive": "^1.0.0",
+    "path": "^0.12.7",
+    "react-component-metadata": "^3.1.0",
+    "react-docgen": "^2.10.0",
+    "yeoman-generator": "^0.23.0",
+    "yosay": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.1.1",
+    "eslint-config-xo-space": "^0.14.0",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-line-ending-corrector": "^1.0.1",
+    "gulp-mocha": "^2.0.0",
+    "gulp-nsp": "^2.1.0",
+    "gulp-plumber": "^1.0.0",
+    "mkdirp-promise": "^3.0.1",
+    "yeoman-assert": "^2.0.0",
+    "yeoman-test": "^1.0.0"
+  },
+  "eslintConfig": {
+    "extends": "xo-space",
+    "env": {
+      "mocha": true
+    }
+  },
+  "repository": "RakanNimer/generator-react-redux-saga-generator",
+  "scripts": {},
+  "license": "MIT"
+}
