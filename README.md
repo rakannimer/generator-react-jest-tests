@@ -26,9 +26,11 @@ Suppose you have the following file structure
 ```
 - app/
 	- components/
-		- MyComp.js
+      - MyComp.js
+      - MaybeSome.css
+      - AndA.png
 	- storesOrUtils/
-    - someFile.js
+      - someFile.js
 ```
 
 Silent :
@@ -70,9 +72,22 @@ and result in :
 	- components/
     - __tests__
       - MyComp.test.js
-	   - MyComp.js
-	- storesOrUtils/
+    - MyComp.js
+    - MaybeSome.css
+    - AndA.png
+  - storesOrUtils/
     - someFile.js
+```
+```
+- app/
+	- components/
+      - __tests__
+          - MyComp.test.js
+      - MyComp.js
+      - MaybeSome.css
+      - AndA.png
+	- storesOrUtils/
+      - someFile.js
 ```
 
 Run jest to make sure everything is working as expected.
