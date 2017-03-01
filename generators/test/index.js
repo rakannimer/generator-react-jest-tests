@@ -79,7 +79,7 @@ const extractDefaultProps = (filePath, currentFilePath) => {
   try {
     var componentInfo = reactDocs.parse(fileString);
   } catch (err) {
-    console.log('caught error ;)');
+    console.log(filePath, 'is not a React Component, ');
     throw new Error(err);
   }
   const componentProps = [];
@@ -143,7 +143,7 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    const filePaths = read(this.props.COMPONENTS_PATH);
+    const filePaths = read(this.props.COMPONENTS_PATH, filename => filename.endsWith('.js'));
     const metadata = [];
     for (let i = 0; i < filePaths.length; i += 1) {
       const currentFilePath = filePaths[i];
