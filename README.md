@@ -1,8 +1,18 @@
 # React Jest tests yeoman generator
 
+## What's that ?
+
+This is a [Yeoman](http://yeoman.io) generator used to generate Jest snapshot tests by parsing react components defaultProps and propTypes.
+The tests are linted with [prettier](https://github.com/prettier/prettier) and outputted to the current directory's __tests__ folder.
+
+## Why ?
+
+Writing smoke tests for well-defined components can (and should) easily be offloaded to software. This is a solution I use across projects to bootstrap tests.
+
+
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-react-redux-saga-generator using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-react-jest-tests using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
@@ -47,6 +57,33 @@ DEBUG=generator-react-jest-tests* yo react-jest-tests:test
 ```
 
 Give the path to your folder or ```cd``` to it and put ```./``` as path
+
+Will output :
+```
+create __tests__/MyComp.js
+```
+
+and result in :
+
+```
+- app/
+	- components/
+    - __tests__
+      - MyComp.test.js
+		- MyComp.js
+	- storesOrUtils/
+    - someFile.js
+```
+
+Run jest to make sure everything is working as expected.
+
+Any error can be resolved by specifying defaultProps, if no defaultProps are passed propTypes will be parsed to try to generate fake data. Fake Data generation from propTypes is a WIP.
+
+To write seamless and predictable tests add defaultProps to your component definitions.
+
+## Conflicts
+
+By default it won't overwrite anything without asking you first.
 
 ## License
 
