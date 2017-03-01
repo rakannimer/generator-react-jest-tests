@@ -1,6 +1,6 @@
 {
-  "name": "generator-react-redux-saga-cli",
-  "version": "0.0.1",
+  "name": "generator-react-jest-tests",
+  "version": "0.0.3",
   "description": "react-redux-saga helper cli",
   "homepage": "",
   "author": {
