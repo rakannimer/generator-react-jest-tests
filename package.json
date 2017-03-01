@@ -1,7 +1,7 @@
 {
   "name": "generator-react-jest-tests",
-  "version": "0.0.5",
-  "description": "react-redux-saga helper cli",
+  "version": "0.1.0",
+  "description": "react jest tests generator",
   "homepage": "",
   "author": {
     "name": "RakanNimer",
@@ -24,8 +24,10 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "debug": "^2.6.1",
     "fs-readdir-recursive": "^1.0.0",
     "path": "^0.12.7",
+    "prettier": "^0.20.0",
     "react-component-metadata": "^3.1.0",
     "react-docgen": "^2.10.0",
     "yeoman-generator": "^0.23.0",
@@ -52,7 +54,7 @@
       "mocha": true
     }
   },
-  "repository": "RakanNimer/generator-react-redux-saga-generator",
+  "repository": "RakanNimer/react-jest-tests-generator",
   "scripts": {},
   "license": "MIT"
 }
