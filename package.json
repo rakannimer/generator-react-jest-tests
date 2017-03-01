@@ -1,6 +1,6 @@
 {
   "name": "generator-react-jest-tests",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "react-redux-saga helper cli",
   "homepage": "",
   "author": {
@@ -11,11 +11,13 @@
   "files": [
     "generators"
   ],
-  "main": "generators/index.js",
+  "main": "generators/app/index.js",
   "keywords": [
     "react",
-    "redux",
-    "saga",
+    "jest",
+    "test",
+    "tests",
+    "snapshot",
     "cli",
     "generator",
     "yeoman-generator"
