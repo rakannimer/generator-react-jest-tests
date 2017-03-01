@@ -70,7 +70,7 @@ and result in :
 	- components/
     - __tests__
       - MyComp.test.js
-		- MyComp.js
+	   - MyComp.js
 	- storesOrUtils/
     - someFile.js
 ```
