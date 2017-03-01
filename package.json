@@ -1,6 +1,6 @@
 {
   "name": "generator-react-jest-tests",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "react jest tests generator",
   "homepage": "",
   "author": {
@@ -54,7 +54,7 @@
       "mocha": true
     }
   },
-  "repository": "RakanNimer/react-jest-tests-generator",
+  "repository": "RakanNimer/generator-react-jest-tests",
   "scripts": {},
   "license": "MIT"
 }

@@ -130,7 +130,7 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'COMPONENTS_PATH',
         message: 'Give me the path to components please !',
-        default: './mobile-client/components/PreSocial/'
+        default: './src/components/'
       }
     ];
     if (this.options.isNested) {
