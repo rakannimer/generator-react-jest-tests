@@ -3,7 +3,7 @@
 ## What's that ?
 
 This is a [Yeoman](http://yeoman.io) generator used to generate Jest snapshot tests by parsing react components defaultProps and propTypes.
-The tests are linted with [prettier](https://github.com/prettier/prettier) and outputted to the current directory's __tests__ folder.
+The tests are linted with [prettier](https://github.com/prettier/prettier) and outputted to the current directory's ```__tests__``` folder.
 
 ## Why ?
 
