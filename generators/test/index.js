@@ -177,7 +177,7 @@ module.exports = class extends Generator {
     }
   }
   writing() {
-    const filePaths = read(this.props.COMPONENTS_PATH, filename => filename.endsWith('.js'));
+    const filePaths = read(this.props.COMPONENTS_PATH).filter(filename => filename.endsWith('.js'));
     const metadata = [];
     for (let i = 0; i < filePaths.length; i += 1) {
       const currentFilePath = filePaths[i];
@@ -193,7 +193,7 @@ module.exports = class extends Generator {
     }
     for (let i = 0; i < metadata.length; i += 1) {
       const compMetaData = metadata[i];
-      const testPath = path.join(this.props.COMPONENTS_PATH, '__tests__', compMetaData.filename + '.test.js');
+      const testPath = path.resolve(compMetaData.filePath, path.join('..', '__tests__', compMetaData.filename + '.test.js'))
       const templatePath = this.options.template.length ? path.join(this.sourceRoot('.'), this.options.template) : 'index.template.js';
       this.fs.copyTpl(
         this.templatePath(templatePath),
