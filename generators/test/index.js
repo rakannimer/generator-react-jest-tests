@@ -178,6 +178,11 @@ module.exports = class extends Generator {
   }
   writing() {
     const filePaths = read(this.props.COMPONENTS_PATH).filter(filename => filename.endsWith('.js'));
+    if (filePaths.length === 0) {
+      const noJsMessage = 'Did not find any .js files';
+      console.log(noJsMessage);
+      error(noJsMessage);
+    }
     const metadata = [];
     for (let i = 0; i < filePaths.length; i += 1) {
       const currentFilePath = filePaths[i];
