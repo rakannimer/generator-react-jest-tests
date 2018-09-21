@@ -203,7 +203,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath(templatePath),
         this.destinationPath(testPath),
-        _extends({}, compMetaData, {relativeFilePath: path.join('.', compMetaData.filename)})
+        _extends({}, compMetaData, {relativeFilePath: path.join('..', compMetaData.filename)})
       );
       try {
         const generatedTestCode = this.fs.read(testPath);
