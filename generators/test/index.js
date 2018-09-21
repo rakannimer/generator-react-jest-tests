@@ -1,7 +1,8 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var yosay = require('yosay');
 var fs = require('fs');
+var path = require('path');
 var read = require('fs-readdir-recursive');
 var reactDocs = require('react-docgen');
 var debug = require('debug');
@@ -30,8 +31,8 @@ const filenameFromPath = filePath => {
   return filename;
 };
 
-const generateFakeProp = ({propName, name, value}) => {
-  log('generateFakeProp ', {propName, name, value});
+const generateFakeProp = ({propName, name, value, raw}) => {
+  log('generateFakeProp ', {propName, name, value, raw});
   const isShape = typeof (value) === 'object';
   if (isShape) {
     const fakeShape = {};
@@ -47,7 +48,7 @@ const generateFakeProp = ({propName, name, value}) => {
     case 'number':
       return {name, value: 42};
     case 'string':
-      return {name, value: 'defaultString'};
+      return {name, value: "'defaultString'"};
     case 'bool':
       return {name, value: true};
     case 'array':
@@ -59,13 +60,26 @@ const generateFakeProp = ({propName, name, value}) => {
         case 'number':
           return {name, value: 42};
         case 'string':
-          return {name, value: 'defaultString'};
+          return {name, value: "'defaultString'"};
         case 'bool':
           return {name, value: true};
         case 'array':
           return {name, value: []};
         default:
-          return {name, value: 'unrecognizedType ' + name + ' ' + value + ', consider reporting error to react-jest-test-generator.'};
+          switch (raw) {
+            case 'PropTypes.func':
+              return {name, value: '() => {}'};
+            case 'PropTypes.number':
+              return {name, value: 42};
+            case 'PropTypes.string':
+              return {name, value: "'defaultString'"};
+            case 'PropTypes.bool':
+              return {name, value: true};
+            case 'PropTypes.array':
+              return {name, value: []};
+            default:
+              return {name, value: 'unrecognizedType ' + name + ' ' + value + ', consider reporting error to react-jest-test-generator.'};
+          }
       }
 
   }
@@ -110,20 +124,41 @@ const extractDefaultProps = (filePath, currentFilePath) => {
       error('defaultProps value not set for ' + propName + ' in ' + filename + ' at ' + currentFilePath + ' consider setting it  in defaultProps');
       error('!!! Will try to generate fake data this might cause unexpected results !!!');
       const {type, required, description} = componentInfo.props[propName];
-      // const {name, value} = type;
-      const {name, value} = type;
-      const fakeProp = generateFakeProp({propName, name, value});
-      propDefaultValue = fakeProp.value;
-      log('Generated ', fakeProp, 'returning it as ', {propName, propType, propDefaultValue, currentFilePath});
+      const {name, value, raw} = type;
+      if (required) {
+        const fakeProp = generateFakeProp({propName, name, value, raw});
+        propDefaultValue = fakeProp.value;
+        log('Generated ', fakeProp, 'returning it as ', {propName, propType, propDefaultValue, currentFilePath});
+      }
     }
     componentProps.push({propName, propType, propDefaultValue, currentFilePath});
     // process.exit();
   }
-  return {filePath, componentProps, filename, currentFilePath};
+  return {filePath, componentProps, componentInfo, filename, currentFilePath};
 };
 
-module.exports = yeoman.Base.extend({
-  prompting: function () {
+module.exports = class extends Generator {
+  constructor(args, opts) {
+    super(args, opts);
+    this.option('prettify', {
+      descr: 'If true, lint code with prettify',
+      alias: 'pr',
+      type: Boolean,
+      default: false,
+      hide: false
+    });
+    this.option('template', {
+      desc: 'Custom template to use for tests',
+      alias: 't',
+      type: String,
+      default: '',
+      hide: false
+    });
+  }
+  prompting() {
+    if (this.options.template.length) {
+      this.log(`Received custom template of: ${this.options.template}`);
+    }
     this.log(yosay('Let\'s create tests'));
     var prompts = [
       {
@@ -140,10 +175,14 @@ module.exports = yeoman.Base.extend({
         this.props = props;
       }.bind(this));
     }
-  },
-
-  writing: function () {
-    const filePaths = read(this.props.COMPONENTS_PATH, filename => filename.endsWith('.js'));
+  }
+  writing() {
+    const filePaths = read(this.props.COMPONENTS_PATH).filter(filename => filename.endsWith('.js'));
+    if (filePaths.length === 0) {
+      const noJsMessage = 'Did not find any .js files';
+      console.log(noJsMessage);
+      error(noJsMessage);
+    }
     const metadata = [];
     for (let i = 0; i < filePaths.length; i += 1) {
       const currentFilePath = filePaths[i];
@@ -159,22 +198,23 @@ module.exports = yeoman.Base.extend({
     }
     for (let i = 0; i < metadata.length; i += 1) {
       const compMetaData = metadata[i];
-      const testPath = './__tests__/' + compMetaData.filename + '.test.js';
+      const testPath = path.resolve(compMetaData.filePath, path.join('..', '__tests__', compMetaData.filename + '.test.js'));
+      const templatePath = this.options.template.length ? path.join(this.sourceRoot('.'), this.options.template) : 'index.template.js';
       this.fs.copyTpl(
-        this.templatePath('index.template.js'),
+        this.templatePath(templatePath),
         this.destinationPath(testPath),
-        _extends({}, compMetaData, {componentsPath: this.props.COMPONENTS_PATH})
+        _extends({}, compMetaData, {relativeFilePath: path.join('.', compMetaData.filename)})
       );
       try {
         const generatedTestCode = this.fs.read(testPath);
-        const formattedTestCode = prettier.format(generatedTestCode, {
+        const formattedTestCode = this.options.prettify ? prettier.format(generatedTestCode, {
           singleQuote: true,
           trailingComma: 'all'
-        });
+        }) : generatedTestCode;
         this.fs.write(testPath, formattedTestCode);
       } catch (err) {
         error('Couldnt lint generated code :( from ' + compMetaData);
       }
     }
   }
-});
+};

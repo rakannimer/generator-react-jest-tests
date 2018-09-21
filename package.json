@@ -30,7 +30,7 @@
     "prettier": "^0.20.0",
     "react-component-metadata": "^3.1.0",
     "react-docgen": "^2.10.0",
-    "yeoman-generator": "^0.23.0",
+    "yeoman-generator": "^2.0.3",
     "yosay": "^1.0.0"
   },
   "devDependencies": {
