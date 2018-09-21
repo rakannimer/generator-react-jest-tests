@@ -6,7 +6,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import renderer from 'react-test-renderer';
-import <%- filename %> from '.<%-componentsPath%><%-currentFilePath.split('.')[0]%>';
+import <%- filename %> from '<%-relativeFilePath%>';
 
 
 describe('<%-filename%> test', () => {

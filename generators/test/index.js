@@ -193,12 +193,12 @@ module.exports = class extends Generator {
     }
     for (let i = 0; i < metadata.length; i += 1) {
       const compMetaData = metadata[i];
-      const testPath = path.resolve(compMetaData.filePath, path.join('..', '__tests__', compMetaData.filename + '.test.js'))
+      const testPath = path.resolve(compMetaData.filePath, path.join('..', '__tests__', compMetaData.filename + '.test.js'));
       const templatePath = this.options.template.length ? path.join(this.sourceRoot('.'), this.options.template) : 'index.template.js';
       this.fs.copyTpl(
         this.templatePath(templatePath),
         this.destinationPath(testPath),
-        _extends({}, compMetaData, {componentsPath: this.props.COMPONENTS_PATH})
+        _extends({}, compMetaData, {relativeFilePath: path.join('.', compMetaData.filename)})
       );
       try {
         const generatedTestCode = this.fs.read(testPath);
